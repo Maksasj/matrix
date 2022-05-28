@@ -3,10 +3,12 @@
 
 #include <cassert>
 #include <iostream>
+#include <string>
+#include <fstream>
 
 typedef struct matrix {
-      int row;
       int collum;
+      int row;
       float** data;
 } matrix;
 
@@ -81,15 +83,6 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
       return mat;
 }
 
-void printMatrix(matrix *mat4) {
-      for(int r = 0; r < mat4->row; r++) {
-            for(int c = 0; c < mat4->collum; c++) {
-                  std::cout << mat4->data[r][c] << " ";
-            }
-            std::cout << "\n";
-      }
-}
-
 //Transposition
 matrix* transposMatrix(matrix *tmp_mat) {
       assert(tmp_mat != NULL);
@@ -113,8 +106,8 @@ matrix* multipMatrix(matrix *mat_a, matrix *mat_b) {
       
       matrix *mat = new matrix();
 
-      int row = mat_b->row;
-      int collum = mat_a->collum;
+      int row = mat_b->collum;
+      int collum = mat_a->row;
 
       mat->row = row;
       mat->collum = collum;
@@ -125,14 +118,60 @@ matrix* multipMatrix(matrix *mat_a, matrix *mat_b) {
             for(int c = 0; c < mat->collum; c++) {
                   float value = 0;
 
-                  for(int tmp_r = 0; tmp_r < mat_b->collum; tmp_r++) {
-                        value += mat_b->data[r][tmp_r]*mat_a->data[tmp_r][c];
+                  for(int tmp_r = 0; tmp_r < mat_a->collum; tmp_r++) {
+                        value += mat_a->data[r][tmp_r]*mat_b->data[tmp_r][c];
                   }
 
                   mat->data[r][c] = value;
             }
       }
       return mat;
+}
+
+matrix* loadFileMatrix(std::string file_name) {
+      std::ifstream in(file_name);
+
+      int collum, row;
+      in >> collum >> row;
+
+      matrix *mat = new matrix();
+      mat->row = row;
+      mat->collum = collum;
+      mat->data = new float*[row];
+      for(int r = 0; r < row; r++) {
+            mat->data[r] = new float[collum];
+            for(int c = 0; c < mat->collum; c++) {
+                  int value;
+                  in >> value;
+                  mat->data[r][c] = value;
+            }
+      }
+
+      in.close();
+      return mat;
+}
+
+void saveFileMatrix(matrix *mat, std::string file_name) {
+      std::ofstream out(file_name);
+
+      out << mat->collum << " " << mat->row << "\n";
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  out << mat->data[r][c] << " ";
+            }
+            out << "\n";
+      }
+
+      out.close();
+}
+
+void printMatrix(matrix *mat4) {
+      for(int r = 0; r < mat4->row; r++) {
+            for(int c = 0; c < mat4->collum; c++) {
+                  std::cout << mat4->data[r][c] << " ";
+            }
+            std::cout << "\n";
+      }
 }
 
 typedef matrix mat;
