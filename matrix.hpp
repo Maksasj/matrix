@@ -30,7 +30,7 @@ matrix* createMatrix(int row, int collum, float value) {
       mat->data = new float*[row];
       for(int r = 0; r < row; r++) {
             mat->data[r] = new float[collum];
-            for(int c= 0; c < mat->collum; c++) {
+            for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = value;
             }
       }
@@ -46,7 +46,7 @@ void deleteMatrix(matrix *mat) {
 
 void fillMatrix(matrix *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
-            for(int c= 0; c < mat->collum; c++) {
+            for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = value;
             }
       }
@@ -55,7 +55,7 @@ void fillMatrix(matrix *mat, float value) {
 //Scalar multiplication
 void scalarMultMatrix(matrix *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
-            for(int c= 0; c < mat->collum; c++) {
+            for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] *= value;
             }
       }
@@ -74,7 +74,7 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
 
       for(int r = 0; r < row; r++) {
             mat->data[r] = new float[collum];
-            for(int c= 0; c < collum; c++) {
+            for(int c = 0; c < collum; c++) {
                   mat->data[r][c] = mat_a->data[r][c] + mat_b->data[r][c];
             }
       }
@@ -88,6 +88,23 @@ void printMatrix(matrix *mat4) {
             }
             std::cout << "\n";
       }
+}
+
+//Transposition
+matrix* transposMatrix(matrix *tmp_mat) {
+      assert(tmp_mat != NULL);
+      
+      matrix *mat = new matrix();
+      mat->row = tmp_mat->collum;
+      mat->collum = tmp_mat->row;
+      mat->data = new float*[mat->row];
+      for(int r = 0; r < mat->row; r++) {
+            mat->data[r] = new float[mat->collum];
+            for(int c = 0; c < mat->collum; c++) {
+                  mat->data[r][c] = tmp_mat->data[c][r];
+            }
+      }
+      return mat;
 }
 
 typedef matrix mat;
