@@ -1,10 +1,10 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <cassert>
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
+#include <cassert>
 
 typedef struct matrix {
       int collum;
@@ -165,13 +165,24 @@ void saveFileMatrix(matrix *mat, std::string file_name) {
       out.close();
 }
 
-void printMatrix(matrix *mat4) {
-      for(int r = 0; r < mat4->row; r++) {
-            for(int c = 0; c < mat4->collum; c++) {
-                  std::cout << mat4->data[r][c] << " ";
+void printMatrix(matrix *mat) {
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  std::cout << mat->data[r][c] << " ";
             }
             std::cout << "\n";
       }
+}
+
+float elementSum(matrix *mat) {
+      float value = 0;
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  value += mat->data[r][c];
+            }
+      }
+      return value;
+
 }
 
 typedef matrix mat;
