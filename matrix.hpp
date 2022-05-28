@@ -107,6 +107,34 @@ matrix* transposMatrix(matrix *tmp_mat) {
       return mat;
 }
 
+//Matrix multiplication
+matrix* multipMatrix(matrix *mat_a, matrix *mat_b) {
+      assert(mat_b->row == mat_a->collum);
+      
+      matrix *mat = new matrix();
+
+      int row = mat_b->row;
+      int collum = mat_a->collum;
+
+      mat->row = row;
+      mat->collum = collum;
+      mat->data = new float*[row];
+
+      for(int r = 0; r < row; r++) {
+            mat->data[r] = new float[collum];
+            for(int c = 0; c < mat->collum; c++) {
+                  float value = 0;
+
+                  for(int tmp_r = 0; tmp_r < mat_b->collum; tmp_r++) {
+                        value += mat_b->data[r][tmp_r]*mat_a->data[tmp_r][c];
+                  }
+
+                  mat->data[r][c] = value;
+            }
+      }
+      return mat;
+}
+
 typedef matrix mat;
 
 #endif
