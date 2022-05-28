@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <cassert>
+#include <iostream>
 
 typedef struct matrix {
       int row;
@@ -51,11 +52,20 @@ void fillMatrix(matrix *mat, float value) {
       }
 }
 
+//Scalar multiplication
+void scalarMultMatrix(matrix *mat, float value) {
+      for(int r = 0; r < mat->row; r++) {
+            for(int c= 0; c < mat->collum; c++) {
+                  mat->data[r][c] *= value;
+            }
+      }
+}
+
 matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
       assert(mat_a->row == mat_b->row || mat_a->collum == mat_b->collum);
       
-      int row = mat_a->row || mat_b->row;
-      int collum = mat_a->collum || mat_b->collum;
+      int row = mat_a->row;
+      int collum = mat_a->collum;
 
       matrix *mat = new matrix();
       mat->row = row;
@@ -69,6 +79,15 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
             }
       }
       return mat;
+}
+
+void printMatrix(matrix *mat4) {
+      for(int r = 0; r < mat4->row; r++) {
+            for(int c = 0; c < mat4->collum; c++) {
+                  std::cout << mat4->data[r][c] << " ";
+            }
+            std::cout << "\n";
+      }
 }
 
 typedef matrix mat;
