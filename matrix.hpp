@@ -39,13 +39,6 @@ matrix* createMatrix(int row, int collum, float value) {
       return mat;
 }
 
-void deleteMatrix(matrix *mat) {
-      for(int r = 0; r < mat->row; r++) {
-            delete mat->data[r];
-      }
-      delete mat;
-}
-
 void fillMatrix(matrix *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
@@ -55,7 +48,7 @@ void fillMatrix(matrix *mat, float value) {
 }
 
 //Scalar multiplication
-void scalarMultMatrix(matrix *mat, float value) {
+void scaleMatrix(matrix *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] *= value;
@@ -63,8 +56,20 @@ void scalarMultMatrix(matrix *mat, float value) {
       }
 }
 
+//Add scalar value to the each metrix element
+void addScalarMatrix(matrix *mat, float value) {
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  mat->data[r][c] += value;
+            }
+      }
+}
+
 matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
-      assert(mat_a->row == mat_b->row || mat_a->collum == mat_b->collum);
+      if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
+            std::cout << "sumMatrix: mat_a and mat_b have not equal dimensions";
+            exit(1);
+      }
       
       int row = mat_a->row;
       int collum = mat_a->collum;
@@ -78,6 +83,52 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
             mat->data[r] = new float[collum];
             for(int c = 0; c < collum; c++) {
                   mat->data[r][c] = mat_a->data[r][c] + mat_b->data[r][c];
+            }
+      }
+      return mat;
+}
+
+matrix* substractMatrix(matrix *mat_a, matrix *mat_b) {
+      if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
+            std::cout << "substractMatrix: mat_a and mat_b have not equal dimensions";
+            exit(1);
+      }
+      
+      int row = mat_a->row;
+      int collum = mat_a->collum;
+
+      matrix *mat = new matrix();
+      mat->row = row;
+      mat->collum = collum;
+      mat->data = new float*[row];
+
+      for(int r = 0; r < row; r++) {
+            mat->data[r] = new float[collum];
+            for(int c = 0; c < collum; c++) {
+                  mat->data[r][c] = mat_a->data[r][c] - mat_b->data[r][c];
+            }
+      }
+      return mat;
+}
+
+matrix* multiplyMatrix(matrix *mat_a, matrix *mat_b) {
+      if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
+            std::cout << "multiplyMatrix: mat_a and mat_b have not equal dimensions";
+            exit(1);
+      }
+      
+      int row = mat_a->row;
+      int collum = mat_a->collum;
+
+      matrix *mat = new matrix();
+      mat->row = row;
+      mat->collum = collum;
+      mat->data = new float*[row];
+
+      for(int r = 0; r < row; r++) {
+            mat->data[r] = new float[collum];
+            for(int c = 0; c < collum; c++) {
+                  mat->data[r][c] = mat_a->data[r][c] - mat_b->data[r][c];
             }
       }
       return mat;
@@ -100,26 +151,24 @@ matrix* transposMatrix(matrix *tmp_mat) {
       return mat;
 }
 
-//Matrix multiplication || Dot product
+//Just regular dot product
 matrix* dotProductMatrix(matrix *mat_a, matrix *mat_b) {
-      assert(mat_b->row == mat_a->collum);
-      
       matrix *mat = new matrix();
 
-      int row = mat_b->collum;
-      int collum = mat_a->row;
+      int row = mat_a->row;
+      int collum = mat_b->collum;
 
       mat->row = row;
       mat->collum = collum;
       mat->data = new float*[row];
 
-      for(int r = 0; r < row; r++) {
+      for(int r = 0; r < mat_a->row; r++) {
             mat->data[r] = new float[collum];
-            for(int c = 0; c < mat->collum; c++) {
+            for(int c = 0; c < mat_b->collum; c++) {
                   float value = 0;
 
-                  for(int tmp_r = 0; tmp_r < mat_a->collum; tmp_r++) {
-                        value += mat_a->data[r][tmp_r]*mat_b->data[tmp_r][c];
+                  for(int k = 0; k < mat_b->row; k++) {
+                        value += mat_a->data[r][c] * mat_b->data[k][c];
                   }
 
                   mat->data[r][c] = value;
@@ -151,6 +200,20 @@ matrix* loadFileMatrix(std::string file_name) {
       return mat;
 }
 
+void saveFileMatrix(matrix *mat, std::string file_name) {
+      std::ofstream out(file_name);
+
+      out << mat->collum << " " << mat->row << "\n";
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  out << mat->data[r][c] << " ";
+            }
+            out << "\n";
+      }
+
+      out.close();
+}
+
 matrix* copyMatrix(matrix *tmp_mat) {
       matrix *mat = new matrix();
       mat->row = tmp_mat->row;
@@ -165,6 +228,7 @@ matrix* copyMatrix(matrix *tmp_mat) {
       return mat;
 }
 
+//Apply function to the each matrix element
 void applyFunction(matrix *mat, float (*func)(float)) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
@@ -173,18 +237,11 @@ void applyFunction(matrix *mat, float (*func)(float)) {
       }
 }
 
-void saveFileMatrix(matrix *mat, std::string file_name) {
-      std::ofstream out(file_name);
-
-      out << mat->collum << " " << mat->row << "\n";
+void deleteMatrix(matrix *mat) {
       for(int r = 0; r < mat->row; r++) {
-            for(int c = 0; c < mat->collum; c++) {
-                  out << mat->data[r][c] << " ";
-            }
-            out << "\n";
+            delete mat->data[r];
       }
-
-      out.close();
+      delete mat;
 }
 
 void printMatrix(matrix *mat) {
