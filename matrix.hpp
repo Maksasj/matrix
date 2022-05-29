@@ -158,8 +158,19 @@ matrix* copyMatrix(matrix *tmp_mat) {
       mat->data = new float*[mat->row];
       for(int r = 0; r < mat->row; r++) {
             mat->data[r] = new float[mat->collum];
+            for(int c = 0; c < mat->collum; c++) {
+                 mat->data[r][c] = tmp_mat->data[r][c];
+            }
       }
       return mat;
+}
+
+void applyFunction(matrix *mat, float (*func)(float)) {
+      for(int r = 0; r < mat->row; r++) {
+            for(int c = 0; c < mat->collum; c++) {
+                  mat->data[r][c] = func(mat->data[r][c]);
+            }
+      }
 }
 
 void saveFileMatrix(matrix *mat, std::string file_name) {
