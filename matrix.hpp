@@ -100,8 +100,8 @@ matrix* transposMatrix(matrix *tmp_mat) {
       return mat;
 }
 
-//Matrix multiplication
-matrix* multipMatrix(matrix *mat_a, matrix *mat_b) {
+//Matrix multiplication || Dot product
+matrix* dotProductMatrix(matrix *mat_a, matrix *mat_b) {
       assert(mat_b->row == mat_a->collum);
       
       matrix *mat = new matrix();
@@ -148,6 +148,17 @@ matrix* loadFileMatrix(std::string file_name) {
       }
 
       in.close();
+      return mat;
+}
+
+matrix* copyMatrix(matrix *tmp_mat) {
+      matrix *mat = new matrix();
+      mat->row = tmp_mat->row;
+      mat->collum = tmp_mat->collum;
+      mat->data = new float*[mat->row];
+      for(int r = 0; r < mat->row; r++) {
+            mat->data[r] = new float[mat->collum];
+      }
       return mat;
 }
 
