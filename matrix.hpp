@@ -128,7 +128,7 @@ matrix* multiplyMatrix(matrix *mat_a, matrix *mat_b) {
       for(int r = 0; r < row; r++) {
             mat->data[r] = new float[collum];
             for(int c = 0; c < collum; c++) {
-                  mat->data[r][c] = mat_a->data[r][c] - mat_b->data[r][c];
+                  mat->data[r][c] = mat_a->data[r][c] * mat_b->data[r][c];
             }
       }
       return mat;
