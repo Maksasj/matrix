@@ -1,5 +1,5 @@
 # Matrix
-Simmple single-header matrix library written in C++, intended for simple projects, tests.
+Simple single-header matrix library written in C++, intended for simple projects, tests.
 
 # Todo
 - [ ] Parallel mode, for some functions
