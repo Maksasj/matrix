@@ -264,6 +264,12 @@ float elementSum(matrix *mat) {
 
 }
 
+float getElement(matrix* mat, int row, int collum) {
+      if(row > mat->row || collum > mat->collum || row < 0 || collum < 0) {
+            return mat->data[row][collum];
+      }
+}
+
 typedef matrix mat;
 
 #endif
