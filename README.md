@@ -1,10 +1,14 @@
 # Matrix
+<<<<<<< HEAD
 Simmple single-header [matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics)) library written in C++, intended for simple projects, tests.
 
 ### Provides simple way to interact wiht:
 - Matrix type
 - Matrix algebra
 - Simple way to save & load matrix from files.
+=======
+Simple single-header matrix library written in C++, intended for simple projects, tests.
+>>>>>>> 1dc9ab9d50e1bd070c6fb4d9f3204b3d4be7fe94
 
 # Todo
 - [ ] CPU Parallel mode, for some functions
@@ -220,5 +224,12 @@ printMatrix(mat);
 
 Returns sum of all elements of the provided matrix.
 ```c++
+<<<<<<< HEAD
 float sum = elementSum(mat);
 ```
+=======
+
+float sum = elementSum(mat);// Returns sum of all elements
+
+```
+>>>>>>> 1dc9ab9d50e1bd070c6fb4d9f3204b3d4be7fe94
