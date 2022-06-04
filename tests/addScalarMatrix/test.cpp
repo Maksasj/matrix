@@ -1,7 +1,7 @@
 #include "../../matrix.hpp"
 
 int main() {
-      mat* mat1 = createMatrix(69, 420, 228);
+      matrix<float>* mat1 = createMatrix<float>(69, 420, 228);
       addScalarMatrix(mat1, -159);
 
       saveFileMatrix(mat1, "output.txt");

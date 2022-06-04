@@ -6,32 +6,35 @@
 #include <string>
 #include <cassert>
 
-typedef struct matrix {
+template<class T> struct matrix {
       int collum;
       int row;
-      float** data;
-} matrix;
+      T** data;
+};
 
 //Default create
-matrix* createMatrix(int row, int collum) {
-      matrix *mat = new matrix();
+
+template<class T>
+matrix<T>* createMatrix(int row, int collum) {
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
       }
       return mat;
 }
 
 //Create but with default value
-matrix* createMatrix(int row, int collum, float value) {
-      matrix *mat = new matrix();
+template<class T>
+matrix<T>* createMatrix(int row, int collum, T value) {
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = value;
             }
@@ -39,7 +42,8 @@ matrix* createMatrix(int row, int collum, float value) {
       return mat;
 }
 
-void fillMatrix(matrix *mat, float value) {
+template<class T>
+void fillMatrix(matrix<T> *mat, T value) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = value;
@@ -48,7 +52,8 @@ void fillMatrix(matrix *mat, float value) {
 }
 
 //Scalar multiplication
-void scaleMatrix(matrix *mat, float value) {
+template<class T>
+void scaleMatrix(matrix<T> *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] *= value;
@@ -57,7 +62,8 @@ void scaleMatrix(matrix *mat, float value) {
 }
 
 //Add scalar value to the each metrix element
-void addScalarMatrix(matrix *mat, float value) {
+template<class T>
+void addScalarMatrix(matrix<T> *mat, float value) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] += value;
@@ -65,7 +71,8 @@ void addScalarMatrix(matrix *mat, float value) {
       }
 }
 
-matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
+template<class T>
+matrix<T>* sumMatrix(matrix<T> *mat_a, matrix<T> *mat_b) {
       if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
             std::cout << "sumMatrix: mat_a and mat_b have not equal dimensions";
             exit(1);
@@ -74,13 +81,13 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
       int row = mat_a->row;
       int collum = mat_a->collum;
 
-      matrix *mat = new matrix();
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
 
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < collum; c++) {
                   mat->data[r][c] = mat_a->data[r][c] + mat_b->data[r][c];
             }
@@ -88,7 +95,8 @@ matrix* sumMatrix(matrix *mat_a, matrix *mat_b) {
       return mat;
 }
 
-matrix* substractMatrix(matrix *mat_a, matrix *mat_b) {
+template<class T>
+matrix<T>* substractMatrix(matrix<T> *mat_a, matrix<T> *mat_b) {
       if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
             std::cout << "substractMatrix: mat_a and mat_b have not equal dimensions";
             exit(1);
@@ -97,13 +105,13 @@ matrix* substractMatrix(matrix *mat_a, matrix *mat_b) {
       int row = mat_a->row;
       int collum = mat_a->collum;
 
-      matrix *mat = new matrix();
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
 
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < collum; c++) {
                   mat->data[r][c] = mat_a->data[r][c] - mat_b->data[r][c];
             }
@@ -111,7 +119,8 @@ matrix* substractMatrix(matrix *mat_a, matrix *mat_b) {
       return mat;
 }
 
-matrix* multiplyMatrix(matrix *mat_a, matrix *mat_b) {
+template<class T>
+matrix<T>* multiplyMatrix(matrix<T> *mat_a, matrix<T> *mat_b) {
       if(( mat_a->row != mat_b->row ) && ( mat_a->collum != mat_b->collum )) {
             std::cout << "multiplyMatrix: mat_a and mat_b have not equal dimensions";
             exit(1);
@@ -120,13 +129,13 @@ matrix* multiplyMatrix(matrix *mat_a, matrix *mat_b) {
       int row = mat_a->row;
       int collum = mat_a->collum;
 
-      matrix *mat = new matrix();
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
 
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < collum; c++) {
                   mat->data[r][c] = mat_a->data[r][c] * mat_b->data[r][c];
             }
@@ -135,15 +144,17 @@ matrix* multiplyMatrix(matrix *mat_a, matrix *mat_b) {
 }
 
 //Transposition
-matrix* transposMatrix(matrix *tmp_mat) {
+template<class T>
+matrix<T>* transposMatrix(matrix<T> *tmp_mat) {
       assert(tmp_mat != NULL);
       
-      matrix *mat = new matrix();
+      matrix<T> *mat = new matrix<T>();
       mat->row = tmp_mat->collum;
       mat->collum = tmp_mat->row;
-      mat->data = new float*[mat->row];
+      mat->data = new T*[mat->row];
+
       for(int r = 0; r < mat->row; r++) {
-            mat->data[r] = new float[mat->collum];
+            mat->data[r] = new T[mat->collum];
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = tmp_mat->data[c][r];
             }
@@ -152,23 +163,24 @@ matrix* transposMatrix(matrix *tmp_mat) {
 }
 
 //Just regular dot product
-matrix* dotProductMatrix(matrix *mat_a, matrix *mat_b) {
-      matrix *mat = new matrix();
+template<class T>
+matrix<T>* dotProductMatrix(matrix<T> *mat_a, matrix<T> *mat_b) {
+      matrix<T> *mat = new matrix<T>();
 
       int row = mat_a->row;
       int collum = mat_b->collum;
 
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
 
       for(int r = 0; r < mat_a->row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < mat_b->collum; c++) {
-                  float value = 0;
+                  T value;
 
                   for(int k = 0; k < mat_b->row; k++) {
-                        value += mat_a->data[r][c] * mat_b->data[k][c];
+                        value += ( mat_a->data[r][c] * mat_b->data[k][c] );
                   }
 
                   mat->data[r][c] = value;
@@ -177,18 +189,19 @@ matrix* dotProductMatrix(matrix *mat_a, matrix *mat_b) {
       return mat;
 }
 
-matrix* loadFileMatrix(std::string file_name) {
+template<class T>
+matrix<T>* loadFileMatrix(std::string file_name) {
       std::ifstream in(file_name);
 
       int collum, row;
       in >> collum >> row;
 
-      matrix *mat = new matrix();
+      matrix<T> *mat = new matrix<T>();
       mat->row = row;
       mat->collum = collum;
-      mat->data = new float*[row];
+      mat->data = new T*[row];
       for(int r = 0; r < row; r++) {
-            mat->data[r] = new float[collum];
+            mat->data[r] = new T[collum];
             for(int c = 0; c < mat->collum; c++) {
                   int value;
                   in >> value;
@@ -200,7 +213,8 @@ matrix* loadFileMatrix(std::string file_name) {
       return mat;
 }
 
-void saveFileMatrix(matrix *mat, std::string file_name) {
+template<class T>
+void saveFileMatrix(matrix<T> *mat, std::string file_name) {
       std::ofstream out(file_name);
 
       out << mat->collum << " " << mat->row << "\n";
@@ -214,13 +228,14 @@ void saveFileMatrix(matrix *mat, std::string file_name) {
       out.close();
 }
 
-matrix* copyMatrix(matrix *tmp_mat) {
-      matrix *mat = new matrix();
+template<class T>
+matrix<T>* copyMatrix(matrix<T> *tmp_mat) {
+      matrix<T> *mat = new matrix<T>();
       mat->row = tmp_mat->row;
       mat->collum = tmp_mat->collum;
-      mat->data = new float*[mat->row];
+      mat->data = new T*[mat->row];
       for(int r = 0; r < mat->row; r++) {
-            mat->data[r] = new float[mat->collum];
+            mat->data[r] = new T[mat->collum];
             for(int c = 0; c < mat->collum; c++) {
                  mat->data[r][c] = tmp_mat->data[r][c];
             }
@@ -228,8 +243,9 @@ matrix* copyMatrix(matrix *tmp_mat) {
       return mat;
 }
 
-//Apply function to the each matrix element
-void applyFunction(matrix *mat, float (*func)(float)) {
+//Apply function to the each matrix<T> element
+template<class T>
+void applyFunction(matrix<T> *mat, T (*func)(T)) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   mat->data[r][c] = func(mat->data[r][c]);
@@ -237,14 +253,16 @@ void applyFunction(matrix *mat, float (*func)(float)) {
       }
 }
 
-void deleteMatrix(matrix *mat) {
+template<class T>
+void deleteMatrix(matrix<T> *mat) {
       for(int r = 0; r < mat->row; r++) {
             delete mat->data[r];
       }
       delete mat;
 }
 
-void printMatrix(matrix *mat) {
+template<class T>
+void printMatrix(matrix<T> *mat) {
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
                   std::cout << mat->data[r][c] << " ";
@@ -253,7 +271,8 @@ void printMatrix(matrix *mat) {
       }
 }
 
-float elementSum(matrix *mat) {
+template<class T>
+float elementSum(matrix<T> *mat) {
       float value = 0;
       for(int r = 0; r < mat->row; r++) {
             for(int c = 0; c < mat->collum; c++) {
@@ -264,12 +283,13 @@ float elementSum(matrix *mat) {
 
 }
 
-float getElement(matrix* mat, int row, int collum) {
+template<class T>
+float getElement(matrix<T>* mat, int row, int collum) {
       if(row > mat->row || collum > mat->collum || row < 0 || collum < 0) {
             return mat->data[row][collum];
       }
 }
 
-typedef matrix mat;
+typedef matrix<float> mat;
 
 #endif

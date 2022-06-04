@@ -5,7 +5,7 @@ float func(float x) {
 }
 
 int main() {
-      mat* mat1 = createMatrix(69, 420, 228);
+      mat* mat1 = createMatrix<float>(69, 420, 228);
       applyFunction(mat1, &func);
 
       saveFileMatrix(mat1, "output.txt");
