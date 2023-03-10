@@ -1,37 +1,42 @@
 # Matrix
-Simmple single-header [matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics)) library written in C++, intended for simple projects, tests.
+
+Simple single-header [matrix](<https://en.wikipedia.org/wiki/Matrix_(mathematics)>) library written in C++, intended for simple projects and tests.
 
 ### Provides simple way to interact wiht:
-- Matrix type
-- Matrix algebra
-- Simple way to save & load matrix from files.
+
+-   Matrix type
+-   Matrix algebra
+-   Simple way to save & load matrix from files.
 
 # Todo
-- [ ] CPU Parallel mode, for some functions
-- [ ] Fix all bugs (almost imposible, but still...) 
-- [ ] GPU matrix computation
+
+-   [ ] CPU Parallel mode, for some functions
+-   [ ] Fix all bugs (almost impossible, but still...)
+-   [ ] GPU matrix computation
 
 # Docs
 
 ## Matix type
+
 ```c++
 template<class T> struct matrix {
-      int collum;
+      int column;
       int row;
       T** data;
 };
 ```
+
 Usually matrix you will pass around using pointers, `matrix* mat`, also theres a shorter writing version `mat* mat1`.
 
-If you want get access to the specific element you can do that like that `mat->data[x][y]`, but be carefully be cause *x* and *y* can't be more then collum and row correspondently, or less then 0. Another way how to get access specific cell from matrix is using `getElement(mat, row, collum)` , there mat is yours matrix, row and collum is just regular ints like `x` and `y` as stated above.
+If you want get access to the specific element you can do that like that `mat->data[x][y]`, but be carefully be cause _x_ and _y_ can't be more then column and row correspondently, or less then 0. Another way how to get access specific cell from matrix is using `getElement(mat, row, column)` , there mat is yours matrix, row and column is just regular ints like `x` and `y` as stated above.
 
 ## CreateMatrix
 
-`matrix* createMatrix<T>(int row, int collum)`
+`matrix* createMatrix<T>(int row, int column)`
 
 Returns pointer to the created matrix, also can be written like this.
 
-`matrix* createMatrix<T>(int row, int collum, float value)`
+`matrix* createMatrix<T>(int row, int column, float value)`
 
 These both methods have save meaning, second will just fill matrix with default value. Regularly this value will be 0.
 
@@ -41,6 +46,7 @@ matrix<int>* mat2 = createMatrix<int>(69, 420, 228); //Will be initialized with 
 ```
 
 ## fillMatrix
+
 `void fillMatrix(matrix *mat<T>, T value)`
 
 Just fills entire matrix with specific value
@@ -50,6 +56,7 @@ fillMatrix(mat, 69); // Will fill entire 'mat matrix' with 69
 ```
 
 ## scaleMatrix
+
 `void scaleMatrix(matrix *mat<T>, float value)`
 
 Will multiply each element of matrix by provided value.
@@ -59,6 +66,7 @@ scaleMatrix(mat, 69); // Will multiply each element of matrix 'mat' by specific 
 ```
 
 ## addScalarMatrix
+
 `void addScalarMatrix(matrix<T> *mat, float value)`
 
 Adds provided value to the each element of the provided matrix
@@ -67,39 +75,40 @@ Adds provided value to the each element of the provided matrix
 scaleMatrix(mat, 69); // In this case, will add 69 to the each element of the matrix 'mat'
 ```
 
-
 ## sumMatrix
+
 `matrix<T>* sumMatrix(matrix<T> *mat_a, matrix<T> *mat_b)`
 
-Simply will sumup each element of first matrix with same element from th second matrix. As a result will create a new matrix.
-Be very careful, different matrix dimensions can couse errors.
+Simply will sum up each element of first matrix with same element from th second matrix. As a result will create a new matrix.
+Be very careful, different matrix dimensions can cause errors.
 
 ```c++
 matrix<T>* result = sumMatrix(mat1, mat2);
 /*
-Will sumup each element of matrix 'mat1' with same element from 'mat2'.
+Will sum up each element of matrix 'mat1' with same element from 'mat2'.
 */
 ```
 
 ## substractMatrix
+
 `matrix<T>* substractMatrix(matrix<T> *mat_a, matrix<T> *mat_b)`
 
 Simply will substract each element of first matrix with same element from th second matrix. As a result will create a new matrix.
-Be very careful, different matrix dimensions can couse errors.
+Be very careful, different matrix dimensions can cause errors.
 
 ```c++
 matrix<T>* result = substractMatrix(mat1, mat2);
 /*
-Will substract each element of matrix 'mat1' with same element from 'mat2'.
+Will subtract each element of matrix 'mat1' with same element from 'mat2'.
 */
 ```
 
 ## multiplyMatrix
+
 `matrix<T>* multiplyMatrix(matrix<T> *mat_a, matrix<T> *mat_b)`
 
 Simply will multiply each element of first matrix with same element from th second matrix. As a result will create a new matrix.
-Be very careful, different matrix dimensions can couse errors.
-
+Be very careful, different matrix dimensions can cause errors.
 
 ```c++
 matrix<T>* result = multiplyMatrix(mat1, mat2);
@@ -109,6 +118,7 @@ Will multiply each element of matrix 'mat1' with same element from 'mat2'.
 ```
 
 ## transposMatrix
+
 `matrix<T>* transposMatrix(matrix<T> *tmp_mat)`
 
 Will do matrix 'flip', it switches the row and column indices of the matrix A by producing another matrix.
@@ -132,15 +142,17 @@ result:
 ```
 
 ## dotProductMatrix
+
 `matrix<T>* dotProductMatrix(matrix<T> *mat_a, matrix<T> *mat_b)`
 
-Returns dot products between rows of first matrix and columns of the second matrix. More about *dot product* you can read in this [article](https://en.wikipedia.org/wiki/Dot_product).
+Returns dot products between rows of first matrix and columns of the second matrix. More about _dot product_ you can read in this [article](https://en.wikipedia.org/wiki/Dot_product).
 
 ```c++
 matrix<T>* result = dotProductMatrix(mat1, mat2);
 ```
 
 ## loadFileMatrix
+
 `matrix* loadFileMatrix(std::string file_name)`
 
 Returns matrix stored in text file, be careful because there I using custom matrix format. To lear more check out test folder of the repository.
@@ -170,20 +182,20 @@ saveFileMatrix(mat,"matrix.txt");
 ```
 
 ## copyMatrix
+
 `matrix<T>* copyMatrix(matrix<T> *tmp_mat)`
 
 Copies provided matrix , and created new unique one, with unique pointer.
 
-
 ```c++
-matrix<T>* result = copyMatrix(mat); 
+matrix<T>* result = copyMatrix(mat);
 ```
 
 ## applyFunction
+
 `void applyFunction(matrix<T> *mat, T (*func)(T))`
 
 Allows to apply specific function for every element of provided matrix. Regularly provided matrix should accept single float variable as input, and return just 'T' type. But if you want to do somethink more, do that on your own risk :).
-
 
 ```c++
 T func(T x) {
@@ -198,6 +210,7 @@ For example there, for each element of 'mat' matrix will be applied function 'fu
 ```
 
 ## deleteMatrix
+
 `void deleteMatrix(matrix<T> *mat)`
 
 Delets entire matrix, and free the memory.
@@ -207,18 +220,21 @@ deleteMatrix(mat);
 ```
 
 ## printMatrix
+
 `void printMatrix(matrix<T> *mat)`
 
 Just prints entire matrix in terminal.
+
 ```c++
 printMatrix(mat);
 ```
 
-
 ## elementSum
+
 `float elementSum(matrix<T> *mat)`
 
 Returns sum of all elements of the provided matrix.
+
 ```c++
 T sum = elementSum(mat);
 ```
